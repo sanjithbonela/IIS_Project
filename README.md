@@ -14,6 +14,8 @@ Pytorch, pretrained Resnet18 model, MSE Loss, implemented on GPU - RTX-2060.
 
 # Landmark Detection subsystem
 
+Install all dependencies through requirements.txt
+
 Input - An anonymous video of ASL.
 
 Expected Output -  X and Y coordinates of landmarks for every frame.

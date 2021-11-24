@@ -48,9 +48,9 @@ def train_model(learning_rate, num_epochs = 10):
     network = Network()
     try:
         network.load_state_dict(torch.load("../content/landmarks_pretrained_cont.pth"))
-        print("***************Model loaded Successfully!****************")
+        print("*************** Model loaded Successfully! ****************")
     except:
-        print("***************Model not found! Initiating pretrained version***************")
+        print("*************** Model not found! Initiating pretrained version ***************")
         network = Network(isPretrained=True)
     network = network.to(device)
 
