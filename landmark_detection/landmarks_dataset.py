@@ -1,11 +1,8 @@
 import cv2
 import os
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 from torch.utils.data import Dataset
-from Transforms import Transforms
-import dataparser
+from landmark_detection import dataparser
 
 
 class FaceLandmarksDataset(Dataset):
@@ -16,7 +13,7 @@ class FaceLandmarksDataset(Dataset):
         self.landmarks = []
         # self.crops = []
         self.transform = transform
-        self.root_dir = '../final_project_dataset_v0/imgs'
+        self.root_dir = '../../final_project_dataset_v0/imgs'
         lst = os.listdir(self.root_dir)
         pd_df = dataparser.concatenated_df()
 

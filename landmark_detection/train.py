@@ -5,10 +5,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset
-from LandmarksDataset import FaceLandmarksDataset
-from Transforms import Transforms
-from network_model import Network
-from network_model import CustomNet
+from landmark_detection.landmarks_dataset import FaceLandmarksDataset
+from landmark_detection.transforms import Transforms
+from landmark_detection.network_model import Network
 import matplotlib.pyplot as plt
 
 
@@ -48,10 +47,10 @@ def train_model(learning_rate, num_epochs = 10):
     torch.autograd.set_detect_anomaly(True)
     network = Network()
     try:
-        network.load_state_dict(torch.load("./content/landmarks_pretrained.pth"))
-        print("Model loaded Successfully!")
+        network.load_state_dict(torch.load("../content/landmarks_pretrained_cont.pth"))
+        print("***************Model loaded Successfully!****************")
     except:
-        print("Model not found! Initiating from scratch")
+        print("***************Model not found! Initiating pretrained version***************")
         network = Network(isPretrained=True)
     network = network.to(device)
 
@@ -126,15 +125,16 @@ def train_model(learning_rate, num_epochs = 10):
 
         if loss_valid < loss_min:
             loss_min = loss_valid
-            torch.save(network.state_dict(), './content/landmarks_pretrained_cont.pth')
+            torch.save(network.state_dict(), '../content/landmarks_pretrained_cont.pth')
             print("\nMinimum Validation Loss of {:.4f} at epoch {}/{}".format(loss_min, epoch, num_epochs))
             print('Model Saved\n')
 
     print('Training Complete')
     print("Total Elapsed Time : {} s".format(time.time() - start_time))
-    plt.plot(epoch_list, train_loss_list)
+    plt.plot(epoch_list, train_loss_list, color = 'blue')
+    plt.plot(epoch_list, valid_loss_list, color = 'red')
     plt.xlabel("Epochs")
-    plt.ylabel("Average training loss over an epoch")
+    plt.ylabel("Average losses over an epoch")
     plt.show()
 
 

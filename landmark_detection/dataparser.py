@@ -4,7 +4,7 @@ import cv2
 import glob
 
 
-def concatenated_df(path="../final_project_dataset_v0", annotations_file="annotations.csv"):
+def concatenated_df(path="../../final_project_dataset_v0", annotations_file="annotations.csv"):
     list_directories = os.listdir(path)
     list_dfs = []
 
@@ -17,7 +17,7 @@ def concatenated_df(path="../final_project_dataset_v0", annotations_file="annota
     all_df = pd.concat(list_dfs, axis=0, ignore_index=True)
     return all_df
 
-def convert_video_to_images(path="../final_project_dataset_v0", video_file_name="video"):
+def convert_video_to_images(path="../../final_project_dataset_v0", video_file_name="video"):
     list_directories = os.listdir(path)
 
     if not os.path.isdir(path + "/imgs"):

@@ -1,24 +1,16 @@
 """TODO!"""
 
-import sys
 import time
-import numpy as np
 import torch
 import cv2
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import Dataset
-from LandmarksDataset import FaceLandmarksDataset
-from Transforms import Transforms
-from network_model import Network
-from network_model import CustomNet
+from landmark_detection.network_model import Network
 import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
     start_time = time.time()
 
-    images = cv2.imread("../final_project_dataset_v0/test_imgs/test_set/test_img.jpg", 0)
+    images = cv2.imread("../../final_project_dataset_v0/test_imgs/test_set/test_img.jpg", 0)
     images = torch.from_numpy(images)
     print(images.shape)
 

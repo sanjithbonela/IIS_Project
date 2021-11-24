@@ -1,8 +1,8 @@
 # IIS_Project
 
-In this part of the project, we implement the landmarks detection of ASL Videos using ML/DL architectures. The project consists of three phases and one optional phase: landmarks detection, gesture recognition, and the appropriate response of the gesture by Furhat Robot and with optional being End-to-End Learning.
+This project consists of three phases and one optional phase: landmarks detection, gesture recognition, and the appropriate response of the gesture by Furhat Robot and with optional being End-to-End Learning. Currently, we implemented the landmarks detection of ASL Videos using ML/DL architectures.
 
-This the first part of final project is in Intelligent Interactive Systems course at Uppsala University.
+This final project is a part of in [Intelligent Interactive Systems](https://www.uu.se/en/admissions/freestanding-courses/course/?kKod=1MD039&typ=1) course at Uppsala University.
 
 Input - An anonymous video of ASL.
 
@@ -13,10 +13,10 @@ Folder structure of videos and annotations dataset - Default ("../final_project_
 
 Folder structure of imgs dataset - "../final_project_dataset_v0/imgs"
 
-# Libraries & Utilities
+# Libraries, Methods & Utilities
 Pytorch, pretrained Resnet18 model, MSE Loss, implemented on GPU - RTX-2060.
 
-# Usage
+# Landmark Detection subsystem usage
 1. Convert all videos into images using function implemented in dataparser.py
 2. Run train.py which includes preprocessing (to avoid overfitting/underfitting issues).
 
