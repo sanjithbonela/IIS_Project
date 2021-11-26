@@ -2,7 +2,7 @@ import cv2
 import os
 import numpy as np
 from torch.utils.data import Dataset
-from landmark_detection import dataparser
+import dataparser
 
 
 class FaceLandmarksDataset(Dataset):

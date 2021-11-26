@@ -47,7 +47,7 @@ def train_model(learning_rate, num_epochs = 10):
     torch.autograd.set_detect_anomaly(True)
     network = Network()
     try:
-        network.load_state_dict(torch.load("../content/landmarks_pretrained_cont.pth"))
+        network.load_state_dict(torch.load("../content/landmarks_pretrained_cont_2.pth"))
         print("*************** Model loaded Successfully! ****************")
     except:
         print("*************** Model not found! Initiating pretrained version ***************")
@@ -125,7 +125,7 @@ def train_model(learning_rate, num_epochs = 10):
 
         if loss_valid < loss_min:
             loss_min = loss_valid
-            torch.save(network.state_dict(), '../content/landmarks_pretrained_cont.pth')
+            torch.save(network.state_dict(), '../content/landmarks_pretrained_cont_2.pth')
             print("\nMinimum Validation Loss of {:.4f} at epoch {}/{}".format(loss_min, epoch, num_epochs))
             print('Model Saved\n')
 

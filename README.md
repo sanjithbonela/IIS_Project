@@ -10,7 +10,7 @@ Folder structure of videos and annotations dataset - Default ("../final_project_
 Folder structure of imgs dataset - "../final_project_dataset_v0/imgs"
 
 # Libraries, Methods & Utilities
-Pytorch, pretrained Resnet18 model, MSE Loss, implemented on GPU - RTX-2060.
+Pytorch, pretrained Resnet18 model, implemented on GPU - RTX-2060.
 
 # Landmark Detection subsystem
 
@@ -22,5 +22,16 @@ Expected Output -  X and Y coordinates of landmarks for every frame.
 
 1. Convert all videos into images using function implemented in dataparser.py
 2. Run train.py which includes preprocessing (to avoid overfitting/underfitting issues).
+
+
+# End to End Learning subsystem
+
+Input - An anonymous video of ASL.
+
+Expected output - One of the alphabet in [A, B, C, L, R, U]
+
+1. Pretrained Resnet18 model was used and the trained model was stored in content folder.
+
+2. Run e2e_test.py to test the model.
 
 Good Luck!!

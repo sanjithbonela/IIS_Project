@@ -41,5 +41,5 @@ def convert_video_to_images(path="../../final_project_dataset_v0", video_file_na
                 vidcap.release()
             cv2.destroyAllWindows()
 
-# if __name__ == '__main__':
-#     convert_video_to_images_generic()
+if __name__ == '__main__':
+    convert_video_to_images()

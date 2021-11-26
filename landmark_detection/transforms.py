@@ -1,4 +1,3 @@
-
 import random
 import numpy as np
 
@@ -62,8 +61,8 @@ class Transforms():
         image = Image.fromarray(image)
         #image, landmarks = self.crop_face(image, landmarks, crops)
         #image, landmarks = self.resize(image, landmarks, (224, 224))
-        image, landmarks = self.color_jitter(image, landmarks)
-        image, landmarks = self.rotate(image, landmarks, angle=10)
+        #image, landmarks = self.color_jitter(image, landmarks)
+        #image, landmarks = self.rotate(image, landmarks, angle=10)
 
         image = TF.to_tensor(image)
         image = TF.normalize(image, [0.5], [0.5])
