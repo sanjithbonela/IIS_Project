@@ -53,3 +53,4 @@ def get_landmarks(path):
 if __name__ == '__main__':
 
     path = '../../e2e_test_videos/video_1.mp4'
+    get_landmarks(path)
