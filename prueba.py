@@ -45,6 +45,19 @@ if result.message == "yes":
         letter = info.split('_')[2]
         if letter != '':
             furhat.say(text="The letter that has been recognized is letter " + info.split('_')[2])
+            if letter == 'A':
+                furhat.say(text="For example, a word that starts with this letter is: " + "April")
+            if letter == 'B':
+                furhat.say(text="For example, a word that starts with this letter is: " + "Barcelona")
+            if letter == 'C':
+                furhat.say(text="For example, a word that starts with this letter is: " + "Cold")
+            if letter == 'L':
+                furhat.say(text="For example, a word that starts with this letter is: " + "Letter")
+            if letter == 'R':
+                furhat.say(text="For example, a word that starts with this letter is: " + "Rain")
+            if letter == 'U':
+                furhat.say(text="For example, a word that starts with this letter is: " + "Umbrella")
+        
         else:
             furhat.say(text="I have not received anything.")
             furhat.gesture(name="BrowRaise")
