@@ -28,39 +28,63 @@ furhat.say(text="Hello! I am Furhat, and today I am going to help you to identif
 furhat.gesture(name="BigSmile")
 
 furhat.say(text="Are you ready to start?", blocking =True)
-result=furhat.listen()
+result = furhat.listen()
 
+frame_list = []
+cont = 0
 if result.message == "yes":
     furhat.gesture(name="BigSmile")
     furhat.say(text="That's great, then I will start receiving information.")
     for msg in consumer:
+        cont += 1
         bytes = msg.value
         str_res = bytes.decode()
         str_res = str_res.replace("\'", "\"")
         print(str_res)
         js = json.loads(str_res)
-        letra = ''
         info = str(js['gesture_name'])
         print(info)
         letter = info.split('_')[2]
-        if letter != '':
-            furhat.say(text="The letter that has been recognized is letter " + info.split('_')[2])
-            if letter == 'A':
-                furhat.say(text="For example, a word that starts with this letter is: " + "April")
-            if letter == 'B':
-                furhat.say(text="For example, a word that starts with this letter is: " + "Barcelona")
-            if letter == 'C':
-                furhat.say(text="For example, a word that starts with this letter is: " + "Cold")
-            if letter == 'L':
-                furhat.say(text="For example, a word that starts with this letter is: " + "Letter")
-            if letter == 'R':
-                furhat.say(text="For example, a word that starts with this letter is: " + "Rain")
-            if letter == 'U':
-                furhat.say(text="For example, a word that starts with this letter is: " + "Umbrella")
-        
+        frame_list.append(letter)
+        if(cont <= 400):
+            if len(frame_list) > 1:
+                if frame_list[len(frame_list)-1] != frame_list[len(frame_list)-2]:
+                    furhat.say(text="The letter that has been recognized is: " + letter)
+                    if letter == 'A':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Apple")
+                    if letter == 'B':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Boat")
+                    if letter == 'C':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Cloud")
+                    if letter == 'L':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Laptop")
+                    if letter == 'R':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Real")
+                    if letter == 'U':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Usual")
+            else:
+                if letter != '':
+                    furhat.say(text="The letter that has been recognized is: " + info.split('_')[2])
+                    if letter == 'A':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "April")
+                    if letter == 'B':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Barcelona")
+                    if letter == 'C':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Cold")
+                    if letter == 'L':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Letter")
+                    if letter == 'R':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Rain")
+                    if letter == 'U':
+                        furhat.say(text="For example, a word that starts with this letter is: " + "Umbrella")
+                else:
+                    furhat.say(text="I have not received anything.")
+                    furhat.gesture(name="BrowRaise")
         else:
-            furhat.say(text="I have not received anything.")
-            furhat.gesture(name="BrowRaise")
+            frame_list.clear()
+            cont = 0
+
+
 else:
    furhat.gesture(name="BrowRaise")
    furhat.say(text="That's fine. I will be here for when you need me.")
