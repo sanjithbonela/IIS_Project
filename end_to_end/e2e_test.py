@@ -33,6 +33,7 @@ def real_time_video_e2e(threshold = 0.7, net = None):
         while success:
             image = cv2.resize(image, (480, 640))
             image = TF.to_tensor(image)
+            # image = TF.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
             with torch.no_grad():
                 net.eval()
                 output = net(image[None, ...].to(device))
@@ -71,6 +72,7 @@ def test_video(video_path = '', net = None):
         success, image = vidcap.read()
         while success:
             image = TF.to_tensor(image)
+            # image = TF.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
             with torch.no_grad():
                 net.eval()
                 output = net(image[None, ...].to(device))
@@ -102,7 +104,7 @@ def pred_multiple_videos(path = ''):
 
 if __name__ == '__main__':
 
-    pred_list = pred_multiple_videos('../../final_project_dataset_v1/ASL_letter_U/videos/*.mp4')
+    pred_list = pred_multiple_videos('../../final_project_dataset_v1/ASL_letter_L/videos/*.mp4')
 
     # real_time_video_e2e()
 

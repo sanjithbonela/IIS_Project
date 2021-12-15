@@ -30,7 +30,6 @@ if __name__ == '__main__':
     image = np.swapaxes(image, 1, 2)
     image = np.swapaxes(image, 0, 1)
     image = torch.from_numpy(image).float()
-    # image = TF.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
 
     best_network = Network()
     best_network = best_network.to(device)

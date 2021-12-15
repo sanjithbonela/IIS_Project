@@ -128,5 +128,5 @@ if __name__ == '__main__':
             print(f'validation loss: {np.mean(val_loss):.4f}, validation acc: {(100 * correct_t / total_t):.4f}\n')
             if network_learned:
                 valid_loss_min = batch_loss
-                torch.save(net.state_dict(), '../content/resnet18_e2e.pt')
+                torch.save(net.state_dict(), '../content/resnet18_e2e_normalized.pt')
                 print('Improvement-Detected, save-model')

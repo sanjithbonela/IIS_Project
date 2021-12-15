@@ -29,7 +29,6 @@ def train_model(learning_rate, num_epochs = 10):
         dev = "cpu"
     device = torch.device(dev)
 
-    # dataset = LandmarksDataset(Transforms())
     dataset = LandmarksDataset(Transforms())
     len_valid_set = int(0.3 * len(dataset))
     len_train_set = len(dataset) - len_valid_set
@@ -64,8 +63,6 @@ def train_model(learning_rate, num_epochs = 10):
     optimizer = optim.Adam(network.parameters(), lr=learning_rate)
     scaler = torch.cuda.amp.GradScaler()
 
-    loss_min = np.inf
-
     start_time = time.time()
     print("Training started!")
 
@@ -75,86 +72,8 @@ def train_model(learning_rate, num_epochs = 10):
         torch.save(network.state_dict(), '../../content/landmarks_r18.pth')
         print('Model Saved\n')
 
-    '''
-    for epoch in range(1, num_epochs + 1):
-
-        loss_train = 0
-        loss_valid = 0
-        running_loss = 0
-
-        network.train()
-        for step in range(1, len(train_loader) + 1):
-            images, landmarks = next(iter(train_loader))
-
-            images = images.to(device)
-            # landmarks = landmarks.view(landmarks.size(0), -1).to(device)
-            landmarks = landmarks.to(device)
-            #print(images.shape)
-            predictions = network(images)
-            predictions[landmarks == -1] = -1
-
-            # clear all the gradients before calculating them
-            optimizer.zero_grad()
-
-            # find the loss for the current step
-            loss_train_step = criterion(predictions, landmarks)
-
-            # calculate the gradients
-            loss_train_step.backward()
-
-            # update the parameters
-            optimizer.step()
-
-            loss_train += loss_train_step.item()
-            running_loss = loss_train / step
-
-            print_overwrite(step, len(train_loader), running_loss, 'train')
-
-        network.eval()
-        with torch.no_grad():
-
-            for step in range(1, len(valid_loader) + 1):
-                images, landmarks = next(iter(valid_loader))
-
-                images = images.to(device)
-                landmarks = landmarks.view(landmarks.size(0), -1).to(device)
-
-                predictions = network(images)
-
-                # find the loss for the current step
-                loss_valid_step = criterion(predictions, landmarks)
-
-                loss_valid += loss_valid_step.item()
-                running_loss = loss_valid / step
-
-                print_overwrite(step, len(valid_loader), running_loss, 'valid')
-
-        loss_train /= len(train_loader)
-        loss_valid /= len(valid_loader)
-
-        train_loss_list.append(loss_train)
-        valid_loss_list.append(loss_valid)
-        epoch_list.append(epoch-1)
-
-        print('\n--------------------------------------------------')
-        print('Epoch: {}  Train Loss: {:.4f}  Valid Loss: {:.4f}'.format(epoch, loss_train, loss_valid))
-        print('--------------------------------------------------')
-
-        if loss_valid < loss_min:
-            loss_min = loss_valid
-            torch.save(network.state_dict(), '../../content/landmarks_pretrained_resnet50_3chnl.pth')
-            print("\nMinimum Validation Loss of {:.4f} at epoch {}/{}".format(loss_min, epoch, num_epochs))
-            print('Model Saved\n')
-
-    print('Training Complete')
-    print("Total Elapsed Time : {} s".format(time.time() - start_time))
-    plt.plot(epoch_list, train_loss_list, color = 'blue')
-    plt.plot(epoch_list, valid_loss_list, color = 'red')
-    plt.xlabel("Epochs")
-    plt.ylabel("Average losses over an epoch")
-    plt.show()
-    '''
-
+    end_time = time.time()
+    print(f"Time taken for training: {end_time - start_time}")
 
 if __name__ == '__main__':
     train_model(learning_rate=1e-3)

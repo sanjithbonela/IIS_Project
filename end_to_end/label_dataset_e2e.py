@@ -37,6 +37,7 @@ class FaceGestureDataset(Dataset):
         # cv2.imshow("abcd", image)
         labels = self.labels[index]
         image = TF.to_tensor(image)
+        # image = TF.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
         # labels = torch.from_numpy(labels).long()
         # if self.transform:
         #     image, labels = self.transform(image, labels)

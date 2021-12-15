@@ -13,7 +13,7 @@ Folder structure of imgs dataset - "../final_project_dataset_v0/imgs"
 Pytorch, Mediapipe, pretrained Resnet18 model, implemented on GPU - RTX-2060.
 
 # Communication between subsystems - Kafka
-Kafka is an open-source asynchronous messaging framework which contains producer and consumer. The producer send the message to the server and it stores in topic, and consumer receives the message from the server.
+Kafka is an open-source messaging framework which contains producer and consumer. The producer send the message to the server and it stores in topic, and consumer receives the message from the server.
  
 Check these links for installation - [Documentation](https://kafka.apache.org/intro), [Installation](https://kafka.apache.org/downloads), [Setup and startup instructions](https://kafka.apache.org/quickstart).
 
