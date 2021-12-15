@@ -3,7 +3,7 @@ from kafka import KafkaConsumer
 import json
 import kafka_consumer
 
-consumer = KafkaConsumer('my_topic',group_id='my-group_1',bootstrap_servers=['localhost:9092'])
+consumer = KafkaConsumer('my_topic',group_id='my-group_1',bootstrap_servers=['localhost:9092'], auto_offset_reset = 'latest')
 
 furhat = FurhatRemoteAPI("localhost")
 

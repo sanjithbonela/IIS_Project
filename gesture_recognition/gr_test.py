@@ -19,6 +19,7 @@ device = torch.device(dev)
 def getLandmarks(pd_df, frame_number=None, video_id=None):
     filtered_df = pd_df[(pd_df.frame == frame_number) & (pd_df.video_idx == video_id) & (pd_df.joint != "hand_position")]
     landmark = []
+    # Image size (480, 640, 3)
     for index, row in filtered_df.iterrows():
         x_coord = int(row["y"])/480
         y_coord = int(row["x"])/640
@@ -47,10 +48,9 @@ def pred_multiple_videos(path = ''):
         pred_list.append(test_video(video, net))
     return pred_list
 
-def function:
+def function():
     
-    consumer = KafkaConsumer('my_topic',group_id='my-group_1',bootstrap_servers=['localhost:9092'])
-    consumer.message ==
+    consumer = KafkaConsumer('ld2gr_topic',group_id='my-group_1',bootstrap_servers=['localhost:9092'], auto_offset_reset = 'latest')
 
     pd_df = pd.read_csv("../../final_project_dataset_v1/ASL_letter_B/annotations.csv", index_col=None, header=0)
     landmarks = getLandmarks(pd_df, frame_number=0, video_id=1)
@@ -79,7 +79,7 @@ def function:
 
     #pred_list = pred_multiple_videos('../../final_project_dataset_v1/ASL_letter_C/videos/*.mp4')
     gesture_nm = test_landmarks(landmarks, net)
-#Insert here the producer for kafka
+    #Insert here the producer for kafka
     return gesture_nm
 
 if __name__ == '__main__':
