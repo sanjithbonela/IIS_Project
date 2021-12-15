@@ -5,6 +5,9 @@ import numpy as np
 import torch.nn as nn
 import torchvision.transforms.functional as TF
 from torchvision import *
+from kafka import KafkaConsumer
+import json
+import kafka_consumer
 from gesture_recognition import dataparser_gr
 
 if torch.cuda.is_available():
@@ -44,8 +47,11 @@ def pred_multiple_videos(path = ''):
         pred_list.append(test_video(video, net))
     return pred_list
 
+def function:
+    
+    consumer = KafkaConsumer('my_topic',group_id='my-group_1',bootstrap_servers=['localhost:9092'])
+    consumer.message ==
 
-if __name__ == '__main__':
     pd_df = pd.read_csv("../../final_project_dataset_v1/ASL_letter_B/annotations.csv", index_col=None, header=0)
     landmarks = getLandmarks(pd_df, frame_number=0, video_id=1)
     landmarks = np.array(landmarks).astype('float32')
@@ -73,6 +79,10 @@ if __name__ == '__main__':
 
     #pred_list = pred_multiple_videos('../../final_project_dataset_v1/ASL_letter_C/videos/*.mp4')
     gesture_nm = test_landmarks(landmarks, net)
+#Insert here the producer for kafka
+    return gesture_nm
 
-    print(gesture_nm)
+if __name__ == '__main__':
+    function()
+
 
