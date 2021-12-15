@@ -47,10 +47,8 @@ def pred_multiple_videos(path = ''):
         pred_list.append(test_video(video, net))
     return pred_list
 
-
-if __name__ == '__main__':
-
-#Implement here the consumer from the first subsystem
+def function:
+    
     consumer = KafkaConsumer('my_topic',group_id='my-group_1',bootstrap_servers=['localhost:9092'])
     consumer.message ==
 
@@ -82,5 +80,9 @@ if __name__ == '__main__':
     #pred_list = pred_multiple_videos('../../final_project_dataset_v1/ASL_letter_C/videos/*.mp4')
     gesture_nm = test_landmarks(landmarks, net)
 #Insert here the producer for kafka
-    print(gesture_nm)
+    return gesture_nm
+
+if __name__ == '__main__':
+    function()
+
 
