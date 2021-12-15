@@ -58,12 +58,16 @@ class Transforms():
     '''
 
     def __call__(self, image, landmarks):
-        image = Image.fromarray(image)
+        # image = Image.fromarray(image)
+        image = np.array(image) / 255.0
+        image = np.swapaxes(image, 1, 2)
+        image = np.swapaxes(image, 0, 1)
         #image, landmarks = self.crop_face(image, landmarks, crops)
         #image, landmarks = self.resize(image, landmarks, (224, 224))
         #image, landmarks = self.color_jitter(image, landmarks)
         #image, landmarks = self.rotate(image, landmarks, angle=10)
-
-        image = TF.to_tensor(image)
-        image = TF.normalize(image, [0.5], [0.5])
+        image = image/255.0
+        image = torch.from_numpy(image).float()
+        # image = TF.to_tensor(image)
+        # image = TF.normalize(image, [0.5], [0.5])
         return image, landmarks

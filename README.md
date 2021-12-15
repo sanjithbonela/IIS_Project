@@ -12,6 +12,15 @@ Folder structure of imgs dataset - "../final_project_dataset_v0/imgs"
 # Libraries, Methods & Utilities
 Pytorch, Mediapipe, pretrained Resnet18 model, implemented on GPU - RTX-2060.
 
+# Communication between subsystems - Kafka
+Kafka is an open-source asynchronous messaging framework which contains producer and consumer. The producer send the message to the server and it stores in topic, and consumer receives the message from the server.
+ 
+Check these links for installation - [Documentation](https://kafka.apache.org/intro), [Installation](https://kafka.apache.org/downloads), [Setup and startup instructions](https://kafka.apache.org/quickstart).
+
+Create 3 topics for communication between first and second, second and third and end-to-end and third subsystems.
+
+Make sure those names of the topics match the ones given in code. 
+
 # Landmark Detection subsystem
 
 Install all dependencies through requirements.txt
@@ -29,7 +38,7 @@ However, this model isn't performing upto expectation and so another method was 
 ### Evaluation 
     Euclidean distance between predicted and groundtruth landmarks of a video
 
-#. Method II
+# Method II
 Using open source module, mediapipe, the landmarks were detected and the performance was decent enough.
 
 ### Evaluation 
@@ -42,7 +51,7 @@ Input - An anonymous video of ASL.
 Expected output - One of the alphabet in [A, B, C, L, R, U]
 
 1. Pretrained Resnet18 model was used and the trained model was stored in content folder.
-2. Run e2e_test.py to test the model.
+2. Run e2e_test.py to test the model for both saved and real time video.
 
 ### Evaluation
     Accuracy measure

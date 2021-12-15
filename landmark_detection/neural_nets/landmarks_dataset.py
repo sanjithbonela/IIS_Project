@@ -1,12 +1,13 @@
 import cv2
 import os
+import imageio
 import numpy as np
 from torch.utils.data import Dataset
 import torchvision.transforms.functional as TF
-from landmark_detection import dataparser
+from landmark_detection.neural_nets import dataparser
 
 
-class FaceLandmarksDataset(Dataset):
+class LandmarksDataset(Dataset):
 
     def __init__(self, transform=None):
 
@@ -25,6 +26,7 @@ class FaceLandmarksDataset(Dataset):
             self.landmarks.append(landmark)
 
         self.landmarks = np.array(self.landmarks).astype('float32')
+        self.landmarks = self.landmarks.reshape(-1, 40)
 
         assert len(self.image_filenames) == len(self.landmarks)
 
@@ -32,15 +34,16 @@ class FaceLandmarksDataset(Dataset):
         return len(self.image_filenames)
 
     def __getitem__(self, index):
-        image = cv2.imread(self.image_filenames[index])
+        image = imageio.imread(self.image_filenames[index])
         landmarks = self.landmarks[index]
-        image = TF.to_tensor(image)
-        image = TF.normalize(image, [0.5], [0.5])
+        # print(landmarks.shape)
+        # image = TF.to_tensor(image)
+        # image = TF.normalize(image, [0.5], [0.5])
 
         if self.transform:
             image, landmarks = self.transform(image, landmarks)
 
-        landmarks = landmarks - 0.5
+        #landmarks = landmarks - 0.5
 
         return image, landmarks
 
@@ -53,8 +56,11 @@ class FaceLandmarksDataset(Dataset):
         filtered_df = pd_df[(pd_df.gesture == gesture_name) & (pd_df.frame == frame_num) & (pd_df.video_idx == video_id) & (pd_df.joint != "hand_position")]
         landmark = []
         for index, row in filtered_df.iterrows():
-            x_coord = int(row["y"])
-            y_coord = int(row["x"])
+            x_coord = int(row["y"])/480
+            y_coord = int(row["x"])/640
+            if row["y"] == 0 and row["x"] == 0:
+                x_coord = -1
+                y_coord = -1
             landmark.append([x_coord, y_coord])
         return landmark
 
