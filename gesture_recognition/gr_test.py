@@ -79,7 +79,7 @@ def function():
 
     #pred_list = pred_multiple_videos('../../final_project_dataset_v1/ASL_letter_C/videos/*.mp4')
     gesture_nm = test_landmarks(landmarks, net)
-    #Insert here the producer for kafka
+ 
     return gesture_nm
 
 if __name__ == '__main__':
