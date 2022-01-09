@@ -5,7 +5,7 @@ import mediapipe as mp
 from kafka import KafkaProducer
 
 
-prod = KafkaProducer(bootstrap_servers=['localhost:9092'])
+# prod = KafkaProducer(bootstrap_servers=['localhost:9092'])
 
 # Use this function to send landmarks of a video to Gesture recognition subsystem
 def send_landmarks(path = '../../e2e_test_videos/video_1.mp4'):
@@ -19,7 +19,7 @@ def format_landmarks(mp_hands, results, image_width, image_height):
     x_list = []
     y_list = []
     for hand_landmarks in results.multi_hand_landmarks:
-        hand_landmarks.landmark.pop(mp_hands.HandLandmark.INDEX_FINGER_TIP)
+        hand_landmarks.landmark.pop(mp_hands.HandLandmark.THUMB_CMC)
         for k in hand_landmarks.landmark:
             x_list.append(k.x * image_width)
             y_list.append(k.y * image_height)
@@ -67,4 +67,4 @@ def get_landmarks(path):
 #     path = '../../e2e_test_videos/video_1.mp4'
 #     return_list  = get_landmarks(path)
 #     json_obj = json.dumps(return_list)
-#     # print(json_obj)
+#     print(json_obj)

@@ -5,5 +5,5 @@ if __name__ == '__main__':
     prod = KafkaProducer(bootstrap_servers=['localhost:9092'])
     resp = str(e2e_test.test_video(path))
     #resp = str("test")
-    ack = prod.send('my_topic', bytes(resp, 'utf-8'))
+    ack = prod.send('e2e_rb_topic', bytes(resp, 'utf-8'))
     print(ack.get())

@@ -5,12 +5,51 @@ import torchvision.transforms.functional as TF
 from torchvision import *
 import end_to_end.dataparser_new
 from end_to_end import dataparser_new
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 if torch.cuda.is_available():
     dev = "cuda:0"
 else:
     dev = "cpu"
 device = torch.device(dev)
+
+def get_conf_matrix(path = '../../final_project_dataset_v2', net = None):
+    list_directories = os.listdir(path)
+    y_pred = []
+    y_true = []
+    score_count = 0
+    total_count = 0
+
+    if net is None:
+        net = models.resnet18().to(device)
+        num_ftrs = net.fc.in_features
+        net.fc = nn.Linear(num_ftrs, 6)
+        net.fc = net.fc.to(device)
+
+        net.load_state_dict(torch.load("../content/resnet18_e2e.pt"))
+
+        print("********************* Model loaded!! **************************")
+
+    for l in list_directories:
+        if l.find('imgs') == -1:
+            for video_file in glob.glob(path + "/" + l + "/videos/*.mp4"):
+                total_count += 1
+                pred_item = test_video(video_file, net).cpu().item()
+                y_pred.append(pred_item)
+                y_true.append(dataparser_new.get_mapping()[l])
+                if y_true[len(y_true)-1] == pred_item:
+                    score_count += 1
+
+    print("Accuracy obtained: ", (score_count/total_count)*100)
+    conf_mat = confusion_matrix(y_true=y_true, y_pred=y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=conf_mat)
+    disp.plot()
+    plt.title('Confusion Matrix')
+    plt.ylabel('Actual Values')
+    plt.xlabel('Predicted Values')
+    plt.show()
+
 
 def real_time_video_e2e(threshold = 0.7, net = None):
 
@@ -20,7 +59,7 @@ def real_time_video_e2e(threshold = 0.7, net = None):
         net.fc = nn.Linear(num_ftrs, 6)
         net.fc = net.fc.to(device)
 
-        net.load_state_dict(torch.load("../content/resnet18_e2e.pt"))
+        net.load_state_dict(torch.load("../content/resnet18_e2e_transform_v1.pt"))
 
         print("********************* Model loaded!! **************************")
 
@@ -33,7 +72,7 @@ def real_time_video_e2e(threshold = 0.7, net = None):
         while success:
             image = cv2.resize(image, (480, 640))
             image = TF.to_tensor(image)
-            # image = TF.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+            image = TF.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
             with torch.no_grad():
                 net.eval()
                 output = net(image[None, ...].to(device))
@@ -60,7 +99,7 @@ def test_video(video_path = '', net = None):
         net.fc = nn.Linear(num_ftrs, 6)
         net.fc = net.fc.to(device)
 
-        net.load_state_dict(torch.load("../content/resnet18_e2e.pt"))
+        net.load_state_dict(torch.load("../content/resnet18_e2e_transform_v1.pt"))
 
         print("********************* Model loaded!! **************************")
     vidcap = cv2.VideoCapture(video_path)
@@ -83,8 +122,10 @@ def test_video(video_path = '', net = None):
     cv2.destroyAllWindows()
 
     print('Done prediction!')
-    return {video_path : gesture_list[max(frame_preds, key=frame_preds.count)]}
-    # return {"gesture_name": gesture_list[max(frame_preds, key=frame_preds.count)]}
+    # Different return statements to enable different features.
+    # return max(frame_preds, key=frame_preds.count)
+    # return {video_path : gesture_list[max(frame_preds, key=frame_preds.count)]}
+    return {"gesture_name": gesture_list[max(frame_preds, key=frame_preds.count)]}
 
 def pred_multiple_videos(path = ''):
     net = models.resnet18().to(device)
@@ -92,7 +133,7 @@ def pred_multiple_videos(path = ''):
     net.fc = nn.Linear(num_ftrs, 6)
     net.fc = net.fc.to(device)
 
-    net.load_state_dict(torch.load("../content/resnet18_e2e.pt"))
+    net.load_state_dict(torch.load("../content/resnet18_e2e_transform_v1.pt"))
 
     print("********************* Model loaded!! **************************")
 
@@ -104,10 +145,14 @@ def pred_multiple_videos(path = ''):
 
 if __name__ == '__main__':
 
-    pred_list = pred_multiple_videos('../../final_project_dataset_v1/ASL_letter_L/videos/*.mp4')
-
+    # pred_list = pred_multiple_videos('../../final_project_dataset_v2/ASL_letter_U/videos/*.mp4')
+    get_conf_matrix()
+    # pred = test_video('../../final_project_dataset_v1/ASL_letter_A/videos/video_1.mp4')
+    #
+    # print(pred.cpu().item())
+    # print(dataparser_new.get_mapping()['ASL_letter_A'])
     # real_time_video_e2e()
 
-    for e in pred_list:
-        print(e)
+    # for e in pred_list:
+    #     print(e)
 

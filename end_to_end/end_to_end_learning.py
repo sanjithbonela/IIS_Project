@@ -11,6 +11,8 @@ import time
 import copy
 import os
 from end_to_end.label_dataset_e2e import FaceGestureDataset
+from end_to_end.e2e_transforms import E2E_Transforms
+from end_to_end import dataparser_new
 
 
 def imshow(inp, title=None):
@@ -39,12 +41,10 @@ if __name__ == '__main__':
     batch_size = 16
     learning_rate = 1e-3
 
-    transforms = transforms.Compose(
-        [
-            transforms.ToTensor()
-        ])
+    dataparser_new.convert_video_to_images(path='../../final_project_dataset_v1')
 
-    dataset = FaceGestureDataset(path='../../final_project_dataset_v0')
+    # dataset = FaceGestureDataset(path='../../final_project_dataset_v1', transform=E2E_Transforms())
+    dataset = FaceGestureDataset(path='../../final_project_dataset_v1')
     len_valid_set = int(0.2 * len(dataset))
     len_train_set = len(dataset) - len_valid_set
 
@@ -65,7 +65,8 @@ if __name__ == '__main__':
 
     out = torchvision.utils.make_grid(images)
     print("out-size:", out.shape)
-    imshow(out, title="abcd")
+    # imshow(out, title="abcd")
+    print('\n')
 
     net = models.resnet18(pretrained=True)
     net = net.to(device)
@@ -86,6 +87,7 @@ if __name__ == '__main__':
     train_acc = []
     total_step = len(train_dataloader)
     for epoch in range(1, n_epochs + 1):
+        epoch_list.append(epoch)
         running_loss = 0.0
         correct = 0
         total = 0
@@ -128,5 +130,18 @@ if __name__ == '__main__':
             print(f'validation loss: {np.mean(val_loss):.4f}, validation acc: {(100 * correct_t / total_t):.4f}\n')
             if network_learned:
                 valid_loss_min = batch_loss
-                torch.save(net.state_dict(), '../content/resnet18_e2e_normalized.pt')
+                torch.save(net.state_dict(), '../content/resnet18_e2e_transform_v1.pt')
                 print('Improvement-Detected, save-model')
+
+    fig, (ax1, ax2) = plt.subplots(2)
+    ax1.plot(epoch_list, train_loss, label = 'train-loss')
+    ax1.plot(epoch_list, val_loss, label = 'valid-loss')
+    ax1.set(xlabel = 'Epochs', ylabel = 'Loss')
+    ax1.set_title('Loss vs epoch')
+
+    ax2.plot(epoch_list, train_acc, label='train-accuracy')
+    ax2.plot(epoch_list, val_acc, label='valid-accuracy')
+    ax2.set(xlabel='Epochs', ylabel='Accuracy')
+    ax2.set_title('Accuracy vs epoch')
+    plt.savefig('../../E2E_loss_accuracy.png')
+    plt.show()

@@ -9,11 +9,12 @@ import torchvision.transforms.functional as TF
 
 class FaceGestureDataset(Dataset):
 
-    def __init__(self, path = '../../final_project_dataset_v0'):
+    def __init__(self, path = '../../final_project_dataset_v0', transform=None):
 
         self.image_filenames = []
         self.labels = []
         # self.crops = []
+        self.transform = transform
         self.root_dir = path + "/imgs"
         lst = os.listdir(self.root_dir)
         #pd_df = dataparser_e2e.concatenated_df(path = path)
@@ -34,13 +35,14 @@ class FaceGestureDataset(Dataset):
 
     def __getitem__(self, index):
         image = cv2.imread(self.image_filenames[index])
+        image = cv2.resize(image, (480, 640))
         # cv2.imshow("abcd", image)
         labels = self.labels[index]
-        image = TF.to_tensor(image)
-        # image = TF.normalize(image, [0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+        # image = TF.to_tensor(image)
+        # image = TF.normalize(image, [0.5], [0.5])
         # labels = torch.from_numpy(labels).long()
-        # if self.transform:
-        #     image, labels = self.transform(image, labels)
+        if self.transform:
+            image = self.transform(image)
 
         #landmarks = landmarks - 0.5
 

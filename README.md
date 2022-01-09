@@ -41,9 +41,6 @@ However, this model isn't performing upto expectation and so another method was 
 # Method II
 Using open source module, mediapipe, the landmarks were detected and the performance was decent enough.
 
-### Evaluation 
-    Euclidean distance between predicted and groundtruth landmarks of a video
-
 # End to End Learning subsystem
 
 Input - An anonymous video of ASL.
@@ -54,6 +51,6 @@ Expected output - One of the alphabet in [A, B, C, L, R, U]
 2. Run e2e_test.py to test the model for both saved and real time video.
 
 ### Evaluation
-    Accuracy measure
+    Accuracy measure, confusion matrices
 
 Good Luck!!
