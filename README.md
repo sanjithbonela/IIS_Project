@@ -53,4 +53,7 @@ Expected output - One of the alphabet in [A, B, C, L, R, U]
 ### Evaluation
     Accuracy measure, confusion matrices
 
+# Video Demo link
+Please refer - https://youtu.be/iUYK9SjhCFg
+
 Good Luck!!
